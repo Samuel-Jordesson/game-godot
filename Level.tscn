@@ -7,6 +7,7 @@
 [ext_resource type="Material" uid="uid://cvh05330iqq8u" path="res://water_material.tres" id="6_m3clv"]
 [ext_resource type="Texture2D" uid="uid://cpwcaa5u3xtmy" path="res://Ground037_2K-JPG/Ground037_2K-JPG_Color.jpg" id="6_mxnmf"]
 [ext_resource type="Texture2D" uid="uid://dx0d7tc87l5ch" path="res://Ground037_2K-JPG/Ground037_2K-JPG_NormalDX.jpg" id="7_4eo0i"]
+[ext_resource type="Sky" path="res://DaySkyHDRI027B_2K/DaySkyHDRI027B_2K.tres" id="8_sky"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 
@@ -15,7 +16,7 @@ sky_material = SubResource("ProceduralSkyMaterial_sky")
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 2
-sky = SubResource("Sky_main")
+sky = ExtResource("8_sky")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_86cne"]
 size = Vector2(5, 5)
