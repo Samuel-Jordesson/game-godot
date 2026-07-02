@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://Flavio/Warrior Idle.fbx" id="1_idle"]
+[ext_resource type="PackedScene" path="res://armas/arma.fbx" id="2_arma"]
+
+[node name="TuningBack" instance=ExtResource("1_idle")]
+
+[node name="AjusteCostas" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
+bone_name = "mixamorig_Spine2"
+
+[node name="SuaArma" parent="Armature/Skeleton3D/AjusteCostas" instance=ExtResource("2_arma")]

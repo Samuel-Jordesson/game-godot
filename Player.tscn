@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_player_script"]
+[ext_resource type="PackedScene" uid="uid://d10ncctrkstt1" path="res://Flavio/Warrior Idle.fbx" id="2_idle"]
+[ext_resource type="PackedScene" uid="uid://df6a07lqrpw8s" path="res://Flavio/Walking.fbx" id="3_walk"]
+[ext_resource type="PackedScene" uid="uid://x3bu0lukj8n2" path="res://Flavio/Running.fbx" id="4_run"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_shape"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_player_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_shape")
+
+[node name="Armature" type="Node3D" parent="."]
+
+[node name="Warrior Idle" parent="Armature" instance=ExtResource("2_idle")]
+
+[node name="Walking" parent="Armature" instance=ExtResource("3_walk")]
+visible = false
+
+[node name="Running" parent="Armature" instance=ExtResource("4_run")]
+visible = false
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+spring_length = 3.0
+margin = 0.2
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]

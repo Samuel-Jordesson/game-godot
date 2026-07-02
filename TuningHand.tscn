@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://Flavio/tiro/Gunplay.fbx" id="1_gunplay"]
+[ext_resource type="PackedScene" path="res://armas/arma.fbx" id="2_arma"]
+
+[node name="TuningHand" instance=ExtResource("1_gunplay")]
+
+[node name="AjusteMao" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
+bone_name = "mixamorig_RightHand"
+
+[node name="SuaArma" parent="Armature/Skeleton3D/AjusteMao" instance=ExtResource("2_arma")]

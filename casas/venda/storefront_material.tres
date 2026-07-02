@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3]
+
+[ext_resource type="Texture2D" uid="uid://bjwfi2vnbm64x" path="res://casas/venda/tripo_convert_6c7bb2d6-72db-41ab-8e19-93b617d16af6.fbm/rusty_storefront_3d_model_basecolor.JPEG" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://cmfd6mx53b4wa" path="res://casas/venda/tripo_convert_6c7bb2d6-72db-41ab-8e19-93b617d16af6.fbm/rusty_storefront_3d_model_metallic.JPEG" id="2_metal"]
+[ext_resource type="Texture2D" uid="uid://caouicq4yxwmp" path="res://casas/venda/tripo_convert_6c7bb2d6-72db-41ab-8e19-93b617d16af6.fbm/rusty_storefront_3d_model_roughness.JPEG" id="3_rough"]
+[ext_resource type="Texture2D" uid="uid://bvr55huutf05n" path="res://casas/venda/tripo_convert_6c7bb2d6-72db-41ab-8e19-93b617d16af6.fbm/rusty_storefront_3d_model_normal.JPEG" id="4_norm"]
+
+[resource]
+albedo_texture = ExtResource("1_base")
+metallic = 1.0
+metallic_texture = ExtResource("2_metal")
+roughness = 1.0
+roughness_texture = ExtResource("3_rough")
+normal_enabled = true
+normal_texture = ExtResource("4_norm")

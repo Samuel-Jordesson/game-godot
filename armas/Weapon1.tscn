@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dyarwvd2lv42x"]
+
+[ext_resource type="PackedScene" uid="uid://d4h1ldq8cud24" path="res://armas/arma.fbx" id="1_arma"]
+[ext_resource type="Script" uid="uid://bchv2l0qnqke4" path="res://armas/Weapon.gd" id="1_script"]
+
+[node name="Weapon1" type="Node3D" unique_id=1304026363]
+script = ExtResource("1_script")
+
+[node name="Model" parent="." unique_id=1567444948 instance=ExtResource("1_arma")]
+
+[node name="Muzzle" type="Marker3D" parent="." unique_id=1216760736]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2903183, 0.25, 0.037225723)
+
+[node name="Flash" type="Sprite3D" parent="." unique_id=184531931]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0814743, 0.81499076, -0.0034782887)
+cast_shadow = 0
+pixel_size = 0.003
+billboard = 1
+double_sided = false

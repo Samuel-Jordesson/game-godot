@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxroad123456"]
+
+[ext_resource type="Material" path="res://asfalto/Road009C_2K-JPG/Road009C_2K-JPG.tres" id="1_mat"]
+
+[sub_resource type="Curve3D" id="Curve3D_road"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -10),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[node name="Road" type="Path3D"]
+curve = SubResource("Curve3D_road")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+polygon = PackedVector2Array(-3, 0, 3, 0, 3, 0.1, -3, 0.1)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = true
+path_continuous_u = true
+path_u_distance = 5.0
+path_joined = false
+material = ExtResource("1_mat")

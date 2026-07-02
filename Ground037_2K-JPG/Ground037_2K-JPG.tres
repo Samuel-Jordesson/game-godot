@@ -1,0 +1,21 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://d2hrp1ty5tyqo"]
+
+[ext_resource type="Texture2D" uid="uid://cu3hkqqeg6siq" path="res://Ground037_2K-JPG/Ground037_2K-JPG_AmbientOcclusion.jpg" id="AmbientOcclusion"]
+[ext_resource type="Texture2D" uid="uid://cpwcaa5u3xtmy" path="res://Ground037_2K-JPG/Ground037_2K-JPG_Color.jpg" id="Color"]
+[ext_resource type="Texture2D" uid="uid://cvbapf58k6xbg" path="res://Ground037_2K-JPG/Ground037_2K-JPG_Displacement.jpg" id="Displacement"]
+[ext_resource type="Texture2D" uid="uid://bfl5oxp6w4nq0" path="res://Ground037_2K-JPG/Ground037_2K-JPG_NormalGL.jpg" id="NormalGL"]
+[ext_resource type="Texture2D" uid="uid://i26dpr5yanx5" path="res://Ground037_2K-JPG/Ground037_2K-JPG_Roughness.jpg" id="Roughness"]
+
+[resource]
+albedo_texture = ExtResource("Color")
+roughness_texture = ExtResource("Roughness")
+roughness_texture_channel = 4
+normal_enabled = true
+normal_texture = ExtResource("NormalGL")
+ao_enabled = true
+ao_texture = ExtResource("AmbientOcclusion")
+ao_texture_channel = 4
+heightmap_enabled = true
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("Displacement")
+uv1_scale = Vector3(113.025, 113.025, 113.025)
