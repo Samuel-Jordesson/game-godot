@@ -1,6 +1,9 @@
-[gd_resource type="Sky" load_steps=3 format=3 uid="uid://acg_26s0k1jd"]
-[ext_resource type="Texture2D" uid="uid://acg_k4bgch75" path="./DaySkyHDRI027B_2K_HDR.exr" id="acg_wk2b8yh9"]
+[gd_resource type="Sky" format=3 uid="uid://ebfjgkrrh7rg"]
+
+[ext_resource type="Texture2D" uid="uid://c7ybp4aqfejej" path="res://DaySkyHDRI027B_2K/DaySkyHDRI027B_2K_HDR.exr" id="acg_wk2b8yh9"]
+
 [sub_resource type="PanoramaSkyMaterial" id="acg_716cbhzs"]
 panorama = ExtResource("acg_wk2b8yh9")
+
 [resource]
 sky_material = SubResource("acg_716cbhzs")

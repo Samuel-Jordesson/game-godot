@@ -15,3 +15,11 @@ shape = SubResource("SphereShape3D_interact")
 
 [node name="arma" parent="." instance=ExtResource("2_arma")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+visible = false
+billboard = 1
+text = "[E] Pegar Arma"
+font_size = 64
+outline_size = 12

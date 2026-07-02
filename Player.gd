@@ -216,10 +216,15 @@ func _input(event):
 		spring_arm.rotation.x -= event.relative.y * camera_sensitivity
 		spring_arm.rotation.x = clamp(spring_arm.rotation.x, deg_to_rad(-80), deg_to_rad(60))
 		
-	# Tecla 1 para equipar/guardar a arma
-	if event is InputEventKey and event.physical_keycode == KEY_1 and event.pressed and not event.echo:
-		if has_weapon:
-			toggle_weapon()
+	# Teclas 1 a 4 para acessar o hotbar
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.physical_keycode >= KEY_1 and event.physical_keycode <= KEY_4:
+			var slot_idx = event.physical_keycode - KEY_1
+			if inventory_ui:
+				var item = inventory_ui.get_hotbar_item(slot_idx)
+				if item == "arma":
+					if has_weapon:
+						toggle_weapon()
 			
 	# Tecla I para abrir o inventário
 	if event is InputEventKey and event.physical_keycode == KEY_I and event.pressed and not event.echo:

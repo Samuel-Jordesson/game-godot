@@ -28,7 +28,11 @@ func _process(delta):
 func _on_body_entered(body):
 	if body.name == "Player":
 		can_interact = true
+		if has_node("Label3D"):
+			$Label3D.show()
 
 func _on_body_exited(body):
 	if body.name == "Player":
 		can_interact = false
+		if has_node("Label3D"):
+			$Label3D.hide()
