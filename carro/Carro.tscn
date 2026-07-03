@@ -1,31 +1,35 @@
-[gd_scene load_steps=5 format=3 uid="uid://carro12345678"]
+[gd_scene format=3 uid="uid://bfocdnubd0y0p"]
 
-[ext_resource type="Script" path="res://carro/Carro.gd" id="1_script"]
-[ext_resource type="PackedScene" uid="uid://c6j2q5mxyc5e0" path="res://carro/FINAAL_MODEL_Mach1.fbx" id="2_model"]
+[ext_resource type="Script" uid="uid://j6f7el28ojuq" path="res://carro/Carro.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://c2g8i5b2rdk8" path="res://carro/post-apocalypse__derby_car_degenerate_dsp.glb" id="2_model"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_car"]
-size = Vector3(2, 1.5, 4.5)
+size = Vector3(2.116211, 2, 4.312866)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_interact"]
-size = Vector3(4, 2, 6)
+size = Vector3(5, 2, 7)
 
-[node name="Carro" type="CharacterBody3D" groups=["carro"]]
+[node name="Carro" type="CharacterBody3D" unique_id=917610680 groups=["carro"]]
 script = ExtResource("1_script")
 
-[node name="FINAAL_MODEL_Mach1" parent="." instance=ExtResource("2_model")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+[node name="DerbyCar" parent="." unique_id=405762084 instance=ExtResource("2_model")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1880308290]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019042969, 1, -0.014343262)
 shape = SubResource("BoxShape3D_car")
 
-[node name="InteractArea" type="Area3D" parent="."]
-collision_layer = 1
+[node name="InteractArea" type="Area3D" parent="." unique_id=760152181]
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea" unique_id=1201208354]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_interact")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, -1.5246e-16, 8.74228e-08, -1.5246e-16, 1, 0, -8.74228e-08, -1.3328e-23, -1, 0, 2.5, -5)
+[node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=895019846]
+transform = Transform3D(-1, -1.5246e-16, 8.74228e-08, -1.5246e-16, 1, 0, -8.74228e-08, -1.3328e-23, -1, 0, 2, 0)
+spring_length = 6.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_id=895019847]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 6)

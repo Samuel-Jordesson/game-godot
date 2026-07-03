@@ -235,7 +235,7 @@ func _input(event):
 	if is_physics_processing() and event is InputEventKey and event.physical_keycode == KEY_E and event.pressed and not event.echo:
 		var carros = get_tree().get_nodes_in_group("carro")
 		for carro in carros:
-			if global_position.distance_to(carro.global_position) < 5.0:
+			if global_position.distance_to(carro.global_position) < 3.5:
 				carro.enter_car(self)
 				get_viewport().set_input_as_handled()
 				break
@@ -472,6 +472,9 @@ func _fire_bullet():
 	var target_point = ray_end
 	if result:
 		target_point = result.position
+		# Aplica o dano imediatamente no alvo que a câmera "viu" (Hitscan real)
+		if result.collider and result.collider.has_method("take_damage"):
+			result.collider.take_damage(5) # Dano da arma
 	
 	# Origem do tiro: Muzzle (ponta da arma configurável na cena da arma)
 	var spawn_pos = hand_weapon_instance.global_position

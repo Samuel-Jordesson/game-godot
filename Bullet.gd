@@ -12,8 +12,6 @@ func _physics_process(delta):
 	global_position += direction * speed * delta
 
 func _on_body_entered(body):
-	if body.has_method("take_damage"):
-		body.take_damage(damage)
-	# Ignora o player para que a bala nao exploda nele mesmo
+	# O tiro agora é puramente visual! O dano é aplicado instantaneamente pelo RayCast da câmera
 	if body.name != "Player":
 		queue_free()

@@ -5,13 +5,10 @@
 [ext_resource type="PackedScene" path="res://Enemy.tscn" id="4_enemy"]
 [ext_resource type="PackedScene" uid="uid://ba2sx54h0m41w" path="res://casas/venda/tripo_convert_6c7bb2d6-72db-41ab-8e19-93b617d16af6.fbx" id="5_q4iis"]
 [ext_resource type="Material" uid="uid://cvh05330iqq8u" path="res://water_material.tres" id="6_m3clv"]
-[ext_resource type="Texture2D" uid="uid://cpwcaa5u3xtmy" path="res://Ground037_2K-JPG/Ground037_2K-JPG_Color.jpg" id="6_mxnmf"]
-[ext_resource type="Texture2D" uid="uid://dx0d7tc87l5ch" path="res://Ground037_2K-JPG/Ground037_2K-JPG_NormalDX.jpg" id="7_4eo0i"]
 [ext_resource type="Sky" uid="uid://ebfjgkrrh7rg" path="res://DaySkyHDRI027B_2K/DaySkyHDRI027B_2K.tres" id="8_sky"]
-[ext_resource type="PackedScene" uid="uid://cxroad123456" path="res://Road.tscn" id="9_86ljf"]
 [ext_resource type="PackedScene" uid="uid://2atuww0b4fe0" path="res://casas/casa-abandonada/tripo_convert_81aed24f-005e-4418-9441-51c8b8550ce7.fbx" id="10_3ywx5"]
 [ext_resource type="PackedScene" uid="uid://jdhiwgonows" path="res://arvores/arvore2/maple_tree.glb" id="12_sypgb"]
-[ext_resource type="PackedScene" uid="uid://carro12345678" path="res://carro/Carro.tscn" id="100_car"]
+[ext_resource type="PackedScene" uid="uid://bfocdnubd0y0p" path="res://carro/Carro.tscn" id="100_car"]
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 2
@@ -60,6 +57,7 @@ _shader_parameters = {
 &"noise_texture": SubResource("NoiseTexture2D_ofirr"),
 &"projection_threshold": null
 }
+show_checkered = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sypgb"]
 transparency = 4
@@ -79,14 +77,8 @@ last_lod = 0
 last_shadow_lod = 0
 lod0_range = 128.0
 
-[sub_resource type="Terrain3DTextureAsset" id="Terrain3DTextureAsset_esphl"]
-name = "Ground037"
-albedo_texture = ExtResource("6_mxnmf")
-normal_texture = ExtResource("7_4eo0i")
-
-[sub_resource type="Terrain3DAssets" id="Terrain3DAssets_5qkpu"]
+[sub_resource type="Terrain3DAssets" id="Terrain3DAssets_esphl"]
 mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_dn5x0")])
-texture_list = Array[Terrain3DTextureAsset]([SubResource("Terrain3DTextureAsset_esphl")])
 
 [node name="Level" type="Node3D" unique_id=127182253]
 
@@ -98,43 +90,39 @@ transform = Transform3D(0.8, -0.4, 0.4, 0, 0.7, 0.7, -0.6, -0.5, 0.5, 0, 10, 0)
 shadow_enabled = true
 
 [node name="Player" parent="." unique_id=1230025398 instance=ExtResource("1_player")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.284544, 5.1538444, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.284544, 1.126246, 0)
 weapon_scale = Vector3(0.45, 0.45, 0.45)
 hand_weapon_rot = Vector3(-9.7, 23, -74)
 back_weapon_pos = Vector3(-0.2, -0.035, -0.175)
 back_weapon_rot = Vector3(1.1, -4.4, -90)
 
 [node name="WeaponItem" parent="." unique_id=2114396916 instance=ExtResource("3_weapon")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.130426, 3.4936976, 4.6173644)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.130426, 0.10791159, 4.6173644)
 
 [node name="Enemy" parent="." unique_id=548790384 instance=ExtResource("4_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.685785, -33.44535)
 
 [node name="tripo_convert_6c7bb2d6-72db-41ab-8e19-93b617d16af6" parent="." unique_id=1055031535 instance=ExtResource("5_q4iis")]
-transform = Transform3D(6.04, 0, 0, 0, 6.04, 0, 0, 0, 6.04, 6.801857, 4.99991, 8.401329)
+transform = Transform3D(6.04, 0, 0, 0, 6.04, 0, 0, 0, 6.04, 6.801857, 1.4974203, 8.401329)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1338655617]
 transform = Transform3D(5.96, 0, 0, 0, 5.96, 0, 0, 0, 5.96, -22.165575, 0.33113456, -4.555139)
 material_override = ExtResource("6_m3clv")
 mesh = SubResource("PlaneMesh_86cne")
 
-[node name="Terrain3D" type="Terrain3D" parent="." unique_id=1810338722]
+[node name="tripo_convert_81aed24f-005e-4418-9441-51c8b8550ce7" parent="." unique_id=709248549 instance=ExtResource("10_3ywx5")]
+transform = Transform3D(8.67, 0, 0, 0, 8.67, 0, 0, 0, 8.67, 3.7778363, 1.9454613, -24.174511)
+
+[node name="Terrain3D" type="Terrain3D" parent="." unique_id=1990652873]
 data_directory = "res://terreno_dados"
 material = SubResource("Terrain3DMaterial_d6u53")
-assets = SubResource("Terrain3DAssets_5qkpu")
+assets = SubResource("Terrain3DAssets_esphl")
+show_checkered = true
 top_level = true
 metadata/_edit_lock_ = true
 
-[node name="tripo_convert_81aed24f-005e-4418-9441-51c8b8550ce7" parent="." unique_id=709248549 instance=ExtResource("10_3ywx5")]
-transform = Transform3D(8.67, 0, 0, 0, 8.67, 0, 0, 0, 8.67, 3.7778363, 2.1124907, -24.174511)
+[node name="Sketchfab_Scene" parent="." unique_id=1652843129 instance=ExtResource("12_sypgb")]
+transform = Transform3D(0.075, 0, 0, 0, 0.075, 0, 0, 0, 0.075, -6.5829234, -0.037198067, -35.466408)
 
-[node name="Road" parent="." unique_id=597895542 instance=ExtResource("9_86ljf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.591622, 2.8632174, 2.1555867)
-textura_largura = 10.925
-textura_comprimento = 163.37
-
-[node name="Sketchfab_Scene" parent="Road" unique_id=1652843129 instance=ExtResource("12_sypgb")]
-transform = Transform3D(0.075, 0, 0, 0, 0.075, 0, 0, 0, 0.075, -11.174545, -2.8632174, -37.621994)
-
-[node name="Carro" parent="." instance=ExtResource("100_car")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 5.5, 0)
+[node name="Carro" parent="." unique_id=498056365 instance=ExtResource("100_car")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.34345675, 0)
