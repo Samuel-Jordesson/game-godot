@@ -1,19 +1,21 @@
-[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="acg_sn0g3wlj"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dhbgouw34kbk0"]
 
-[ext_resource type="Texture2D" uid="uid://acg_xsi5bfg8" id="Color" path="./Road009C_2K-JPG_Color.jpg"]
-[ext_resource type="Texture2D" uid="uid://acg_2j5mrxbn" id="AmbientOcclusion" path="./Road009C_2K-JPG_AmbientOcclusion.jpg"]
-[ext_resource type="Texture2D" uid="uid://acg_v0ueldck" id="Displacement" path="./Road009C_2K-JPG_Displacement.jpg"]
-[ext_resource type="Texture2D" uid="uid://acg_9b0fvt6x" id="Roughness" path="./Road009C_2K-JPG_Roughness.jpg"]
-[ext_resource type="Texture2D" uid="uid://acg_3fhwvyxj" id="NormalGL" path="./Road009C_2K-JPG_NormalGL.jpg"]
+[ext_resource type="Texture2D" uid="uid://bxvclexf6tjv" path="res://asfalto/Road009C_2K-JPG/Road009C_2K-JPG_AmbientOcclusion.jpg" id="AmbientOcclusion"]
+[ext_resource type="Texture2D" uid="uid://dq5xpdv6lvd8r" path="res://asfalto/Road009C_2K-JPG/Road009C_2K-JPG_Color.jpg" id="Color"]
+[ext_resource type="Texture2D" uid="uid://31q7nxjcx23x" path="res://asfalto/Road009C_2K-JPG/Road009C_2K-JPG_Displacement.jpg" id="Displacement"]
+[ext_resource type="Texture2D" uid="uid://c0g4m1cfpwn4y" path="res://asfalto/Road009C_2K-JPG/Road009C_2K-JPG_NormalGL.jpg" id="NormalGL"]
+[ext_resource type="Texture2D" uid="uid://djkr85ur6sbjj" path="res://asfalto/Road009C_2K-JPG/Road009C_2K-JPG_Roughness.jpg" id="Roughness"]
+
 [resource]
 albedo_texture = ExtResource("Color")
+roughness_texture = ExtResource("Roughness")
+roughness_texture_channel = 4
+normal_enabled = true
+normal_texture = ExtResource("NormalGL")
 ao_enabled = true
 ao_texture = ExtResource("AmbientOcclusion")
 ao_texture_channel = 4
-roughness_texture = ExtResource("Roughness")
-roughness_texture_channel = 4
-normal_texture = ExtResource("NormalGL")
-normal_enabled = true
-heightmap_texture = ExtResource("Displacement")
-heightmap_scale = 1.0
 heightmap_enabled = true
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("Displacement")
+uv1_scale = Vector3(10.925, 1, 1)

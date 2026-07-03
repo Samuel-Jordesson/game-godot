@@ -62,6 +62,8 @@ class DropZone extends Control:
 
 var ui_root: Control
 var hotbar_root: Control
+var hotbar_hbox: HBoxContainer
+var hotbar_grid: GridContainer
 var inventory_slots: Array = []
 var hotbar_slots: Array = []
 var player_ref = null
@@ -76,7 +78,7 @@ func _ready():
 	hotbar_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(hotbar_root)
 	
-	var hotbar_hbox = HBoxContainer.new()
+	hotbar_hbox = HBoxContainer.new()
 	hotbar_hbox.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	hotbar_hbox.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	hotbar_hbox.grow_vertical = Control.GROW_DIRECTION_BEGIN
@@ -105,7 +107,7 @@ func _ready():
 	panel.anchor_right = 1.0
 	panel.anchor_top = 0.0
 	panel.anchor_bottom = 1.0
-	panel.offset_left = -250
+	panel.offset_left = -300
 	panel.offset_right = 0
 	ui_root.add_child(panel)
 	
@@ -116,24 +118,57 @@ func _ready():
 	margin.add_theme_constant_override("margin_bottom", 20)
 	panel.add_child(margin)
 	
+	var vbox = VBoxContainer.new()
+	margin.add_child(vbox)
+	
+	var label_inv = Label.new()
+	label_inv.text = "Inventário"
+	label_inv.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vbox.add_child(label_inv)
+	
 	var grid = GridContainer.new()
-	grid.columns = 2
+	grid.columns = 3
 	grid.add_theme_constant_override("h_separation", 10)
 	grid.add_theme_constant_override("v_separation", 10)
-	margin.add_child(grid)
+	vbox.add_child(grid)
 	
-	for i in range(10):
+	for i in range(12):
 		var slot = InventorySlot.new()
 		grid.add_child(slot)
 		inventory_slots.append(slot)
+		
+	var sep = HSeparator.new()
+	sep.custom_minimum_size = Vector2(0, 20)
+	vbox.add_child(sep)
+	
+	var label_hotbar = Label.new()
+	label_hotbar.text = "Acesso Rápido"
+	label_hotbar.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vbox.add_child(label_hotbar)
+	
+	hotbar_grid = GridContainer.new()
+	hotbar_grid.columns = 2
+	hotbar_grid.add_theme_constant_override("h_separation", 10)
+	hotbar_grid.add_theme_constant_override("v_separation", 10)
+	vbox.add_child(hotbar_grid)
 
 func toggle():
 	if ui_root.visible:
 		ui_root.hide()
+		hotbar_root.show()
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		for slot in hotbar_slots:
+			if slot.get_parent():
+				slot.get_parent().remove_child(slot)
+			hotbar_hbox.add_child(slot)
 	else:
 		ui_root.show()
+		hotbar_root.hide()
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		for slot in hotbar_slots:
+			if slot.get_parent():
+				slot.get_parent().remove_child(slot)
+			hotbar_grid.add_child(slot)
 
 func add_item(id: String) -> bool:
 	# Tenta colocar no acesso rapido primeiro

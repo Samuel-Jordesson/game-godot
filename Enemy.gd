@@ -176,5 +176,7 @@ func _change_state(new_state: String):
 
 func take_damage(amount: int = 1):
 	health -= amount
+	print("Inimigo foi atingido! Dano: ", amount, " | Vida restante: ", health)
 	if health <= 0:
+		print("Inimigo morreu!")
 		queue_free()

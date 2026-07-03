@@ -230,6 +230,15 @@ func _input(event):
 	if event is InputEventKey and event.physical_keycode == KEY_I and event.pressed and not event.echo:
 		if inventory_ui:
 			inventory_ui.toggle()
+			
+	# Tecla E para entrar no carro
+	if is_physics_processing() and event is InputEventKey and event.physical_keycode == KEY_E and event.pressed and not event.echo:
+		var carros = get_tree().get_nodes_in_group("carro")
+		for carro in carros:
+			if global_position.distance_to(carro.global_position) < 5.0:
+				carro.enter_car(self)
+				get_viewport().set_input_as_handled()
+				break
 
 func _physics_process(delta):
 	if crosshair:
@@ -450,10 +459,19 @@ func _fire_bullet():
 	var bullet = bullet_scene.instantiate()
 	get_tree().get_root().add_child(bullet)
 	
-	# Onde a câmera está olhando (alvo)
+	# Lança um RayCast da câmera para descobrir o que está exatamente na mira (centro da tela)
 	var camera_center = camera.global_position
 	var aim_dir = -camera.global_transform.basis.z
-	var ray_target = camera_center + aim_dir * 1000.0
+	var ray_end = camera_center + aim_dir * 1000.0
+	
+	var space_state = get_world_3d().direct_space_state
+	var query = PhysicsRayQueryParameters3D.create(camera_center, ray_end)
+	query.exclude = [self.get_rid()] # Ignora o jogador
+	var result = space_state.intersect_ray(query)
+	
+	var target_point = ray_end
+	if result:
+		target_point = result.position
 	
 	# Origem do tiro: Muzzle (ponta da arma configurável na cena da arma)
 	var spawn_pos = hand_weapon_instance.global_position
@@ -468,7 +486,8 @@ func _fire_bullet():
 		spawn_pos += forward_dir * 1.2
 	
 	bullet.global_position = spawn_pos
-	bullet.direction = (ray_target - spawn_pos).normalized()
+	# A bala agora viaja do cano da arma DIRETO para o ponto que a mira da câmera detectou
+	bullet.direction = (target_point - spawn_pos).normalized()
 	bullet.look_at(bullet.global_position + bullet.direction, Vector3.UP)
 	
 	# Aciona o efeito de fogo da arma (muzzle flash)

@@ -1,8 +1,8 @@
 extends Area3D
 
-var speed := 150.0
+var speed := 50.0
 var direction := Vector3.ZERO
-var damage := 1
+var damage := 5
 
 func _ready():
 	await get_tree().create_timer(3.0).timeout
