@@ -83,10 +83,27 @@ func _extract_first_anim(node: Node) -> Animation:
 			return anim
 	return null
 
+var is_frozen := false
+var freeze_timer := 0.0
+
 func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 		
+	# Lógica de congelamento
+	if is_frozen:
+		freeze_timer -= delta
+		if freeze_timer <= 0:
+			is_frozen = false
+			if anim_player:
+				anim_player.play(state) # Retoma animação
+		else:
+			# Se está congelado, zera a velocidade e não processa AI
+			velocity.x = 0
+			velocity.z = 0
+			move_and_slide()
+			return
+			
 	timer += delta
 	
 	if not player:
@@ -165,7 +182,7 @@ func _change_state(new_state: String):
 	
 	state = new_state
 	
-	if not anim_player: return
+	if not anim_player or is_frozen: return
 	
 	if state == "idle":
 		anim_player.play("idle", 0.25)
@@ -173,6 +190,13 @@ func _change_state(new_state: String):
 		anim_player.play("run", 0.25)
 	elif state == "attack":
 		anim_player.play("attack", 0.1)
+
+func freeze(duration: float):
+	is_frozen = true
+	freeze_timer = duration
+	if anim_player:
+		anim_player.pause() # Pausa a animação atual
+	print("Inimigo congelado por ", duration, " segundos!")
 
 func take_damage(amount: int = 1):
 	health -= amount

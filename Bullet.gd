@@ -1,6 +1,6 @@
 extends Area3D
 
-var speed := 50.0
+var speed := 200.0
 var direction := Vector3.ZERO
 var damage := 5
 

@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://c6f37icebull2"]
+
+[ext_resource type="Script" path="res://IceBullet.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://abilidades/Gemini_Generated_Image_o314ulo314ulo314.png" id="2_texture"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ice"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 1)
+albedo_texture = ExtResource("2_texture")
+billboard_mode = 1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ice"]
+radius = 0.3
+
+[node name="IceBullet" type="Area3D"]
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("1_script")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_ice")
+texture = ExtResource("2_texture")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ice")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

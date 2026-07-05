@@ -5,7 +5,7 @@ class InventorySlot extends ColorRect:
 	var icon_tex: TextureRect
 	var label: Label
 	
-	func _init(hotbar_num = -1):
+	func _init(label_text = ""):
 		custom_minimum_size = Vector2(80, 80)
 		color = Color(0.1, 0.1, 0.1, 0.8)
 		
@@ -15,9 +15,9 @@ class InventorySlot extends ColorRect:
 		icon_tex.set_anchors_preset(Control.PRESET_FULL_RECT)
 		add_child(icon_tex)
 		
-		if hotbar_num > 0:
+		if label_text != "":
 			label = Label.new()
-			label.text = str(hotbar_num)
+			label.text = label_text
 			label.position = Vector2(5, 5)
 			label.add_theme_color_override("font_color", Color(1, 1, 0, 1)) # Texto amarelo
 			add_child(label)
@@ -26,6 +26,8 @@ class InventorySlot extends ColorRect:
 		item_id = id
 		if item_id == "arma":
 			icon_tex.texture = preload("res://armas/img-arma-ak47.png")
+		elif item_id == "magia_gelo":
+			icon_tex.texture = preload("res://abilidades/Gemini_Generated_Image_o314ulo314ulo314.png")
 		else:
 			icon_tex.texture = null
 			
@@ -72,7 +74,7 @@ func _init():
 	layer = 10
 
 func _ready():
-	# HOTBAR (Sempre visível, 4 quadrados embaixo)
+	# HOTBAR (Sempre visível, 5 quadrados embaixo)
 	hotbar_root = Control.new()
 	hotbar_root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	hotbar_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -86,8 +88,11 @@ func _ready():
 	hotbar_hbox.add_theme_constant_override("separation", 15)
 	hotbar_root.add_child(hotbar_hbox)
 	
-	for i in range(4):
-		var slot = InventorySlot.new(i + 1)
+	for i in range(5):
+		var slot_label = str(i + 1)
+		if i == 4:
+			slot_label = "R"
+		var slot = InventorySlot.new(slot_label)
 		hotbar_hbox.add_child(slot)
 		hotbar_slots.append(slot)
 

@@ -29,7 +29,7 @@ var current_state = "idle"
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var shoot_timer := 0.0
 var time_since_last_shot := 0.0
-var fire_rate := 0.1
+var fire_rate := 0.06
 
 var skeleton_ref: Skeleton3D
 var spine_bones := []
@@ -44,6 +44,9 @@ var hand_weapon_instance: Node3D
 var inventory_ui
 var crosshair: ColorRect
 
+var is_ice_ability_equipped = false
+var ice_particles_instance: Node3D
+
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
@@ -51,6 +54,9 @@ func _ready():
 	inventory_ui = preload("res://InventoryUI.gd").new()
 	inventory_ui.player_ref = self
 	add_child(inventory_ui)
+	
+	# Adiciona a magia de gelo no slot 5 da UI
+	inventory_ui.add_item("magia_gelo")
 	
 	skeleton_ref = find_skeleton(self)
 	if skeleton_ref:
@@ -231,6 +237,11 @@ func _input(event):
 		if inventory_ui:
 			inventory_ui.toggle()
 			
+	# Tecla R para habilidade de gelo
+	if event is InputEventKey and event.physical_keycode == KEY_R and event.pressed and not event.echo:
+		if inventory_ui and inventory_ui.has_item("magia_gelo"):
+			toggle_ice_ability()
+			
 	# Tecla E para entrar no carro
 	if is_physics_processing() and event is InputEventKey and event.physical_keycode == KEY_E and event.pressed and not event.echo:
 		var carros = get_tree().get_nodes_in_group("carro")
@@ -242,11 +253,16 @@ func _input(event):
 
 func _physics_process(delta):
 	if crosshair:
-		crosshair.visible = is_weapon_equipped
+		crosshair.visible = is_weapon_equipped or is_ice_ability_equipped
 
 	# Atualiza a posição da arma em tempo real para ajudar nos ajustes
 	if has_weapon:
 		_update_weapon_transforms()
+		
+	# Envia a posição do jogador para a água para criar as ondas
+	var water_mat = load("res://water_material.tres")
+	if water_mat:
+		water_mat.set_shader_parameter("player_pos", global_position)
 		
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -262,10 +278,24 @@ func _physics_process(delta):
 	var input_dir = Vector2(input_x, input_y).normalized()
 	var direction = (spring_arm.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
-	var is_aiming = Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and is_weapon_equipped
+	var is_aiming = Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and (is_weapon_equipped or is_ice_ability_equipped)
+	
+	# Controle das partículas da magia de gelo
+	if is_ice_ability_equipped and is_aiming:
+		if not ice_particles_instance:
+			var particles_scene = preload("res://IceParticles.tscn")
+			if particles_scene and weapon_hand_attachment:
+				ice_particles_instance = particles_scene.instantiate()
+				weapon_hand_attachment.add_child(ice_particles_instance)
+				ice_particles_instance.position = Vector3.ZERO
+		if ice_particles_instance:
+			ice_particles_instance.emitting = true
+	else:
+		if ice_particles_instance:
+			ice_particles_instance.emitting = false
 	
 	# Controle do tiro e metralhadora
-	var holding_shoot = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and is_weapon_equipped
+	var holding_shoot = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and (is_weapon_equipped or is_ice_ability_equipped)
 	if holding_shoot:
 		shoot_timer = 0.4 # tempo que a animação de tiro fica forçada
 	
@@ -277,7 +307,10 @@ func _physics_process(delta):
 	time_since_last_shot += delta
 	if holding_shoot and time_since_last_shot >= fire_rate:
 		time_since_last_shot = 0.0
-		_fire_bullet()
+		if is_weapon_equipped:
+			_fire_bullet()
+		elif is_ice_ability_equipped:
+			_fire_ice_magic()
 	
 	# Zoom da câmera suave e transição para o ombro (Over-the-shoulder)
 	var target_length = aim_cam_dist if is_aiming else normal_cam_dist
@@ -445,6 +478,8 @@ func drop_item(item_id: String):
 func toggle_weapon():
 	is_weapon_equipped = !is_weapon_equipped
 	if is_weapon_equipped:
+		fire_rate = 0.06
+		if is_ice_ability_equipped: toggle_ice_ability()
 		if back_weapon_instance: back_weapon_instance.hide()
 		if hand_weapon_instance: hand_weapon_instance.show()
 		print("Arma em mãos!")
@@ -453,6 +488,17 @@ func toggle_weapon():
 		if hand_weapon_instance: hand_weapon_instance.hide()
 		print("Arma guardada!")
 
+func toggle_ice_ability():
+	is_ice_ability_equipped = !is_ice_ability_equipped
+	if is_ice_ability_equipped:
+		fire_rate = 1.0 # 1 tiro por segundo para magia
+		if is_weapon_equipped: toggle_weapon()
+		print("Magia de gelo equipada!")
+	else:
+		if ice_particles_instance:
+			ice_particles_instance.emitting = false
+		print("Magia de gelo guardada!")
+
 func _fire_bullet():
 	var bullet_scene = preload("res://Bullet.tscn")
 	if not bullet_scene: return
@@ -460,19 +506,26 @@ func _fire_bullet():
 	get_tree().get_root().add_child(bullet)
 	
 	# Lança um RayCast da câmera para descobrir o que está exatamente na mira (centro da tela)
-	var camera_center = camera.global_position
-	var aim_dir = -camera.global_transform.basis.z
-	var ray_end = camera_center + aim_dir * 1000.0
+	var viewport = get_viewport()
+	var center = viewport.get_size() / 2.0
+	var ray_origin = camera.project_ray_origin(center)
+	var ray_normal = camera.project_ray_normal(center)
+	var ray_end = ray_origin + ray_normal * 1000.0
 	
 	var space_state = get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.create(camera_center, ray_end)
+	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
 	query.exclude = [self.get_rid()] # Ignora o jogador
+	
+	# Adiciona armas e outros bodies do jogador na exceção se necessário
+	if hand_weapon_instance and hand_weapon_instance is CollisionObject3D:
+		query.exclude.append(hand_weapon_instance.get_rid())
+	
 	var result = space_state.intersect_ray(query)
 	
 	var target_point = ray_end
 	if result:
 		target_point = result.position
-		# Aplica o dano imediatamente no alvo que a câmera "viu" (Hitscan real)
+		# Aplica o dano imediatamente no alvo que a câmera "viu" (Hitscan real do meio da tela)
 		if result.collider and result.collider.has_method("take_damage"):
 			result.collider.take_damage(5) # Dano da arma
 	
@@ -496,3 +549,31 @@ func _fire_bullet():
 	# Aciona o efeito de fogo da arma (muzzle flash)
 	if hand_weapon_instance.has_method("shoot"):
 		hand_weapon_instance.shoot()
+
+func _fire_ice_magic():
+	var bullet_scene = preload("res://IceBullet.tscn")
+	if not bullet_scene: return
+	var bullet = bullet_scene.instantiate()
+	get_tree().get_root().add_child(bullet)
+	
+	var viewport = get_viewport()
+	var center = viewport.get_size() / 2.0
+	var ray_origin = camera.project_ray_origin(center)
+	var ray_normal = camera.project_ray_normal(center)
+	var ray_end = ray_origin + ray_normal * 1000.0
+	
+	var space_state = get_world_3d().direct_space_state
+	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
+	query.exclude = [self.get_rid()]
+	
+	var result = space_state.intersect_ray(query)
+	var target_point = ray_end
+	if result:
+		target_point = result.position
+		if result.collider and result.collider.has_method("freeze"):
+			result.collider.freeze(5.0)
+	
+	var spawn_pos = weapon_hand_attachment.global_position
+	bullet.global_position = spawn_pos
+	bullet.direction = (target_point - spawn_pos).normalized()
+	bullet.look_at(bullet.global_position + bullet.direction, Vector3.UP)

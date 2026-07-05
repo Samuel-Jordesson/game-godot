@@ -14,8 +14,8 @@
 background_mode = 2
 sky = ExtResource("8_sky")
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_86cne"]
-size = Vector2(5, 5)
+[sub_resource type="BoxMesh" id="BoxMesh_8wvug"]
+size = Vector3(4.859619, 0.5024414, 6.092285)
 
 [sub_resource type="Gradient" id="Gradient_86ljf"]
 offsets = PackedFloat32Array(0.2, 1)
@@ -106,12 +106,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.685785, -33.44535)
 transform = Transform3D(6.04, 0, 0, 0, 6.04, 0, 0, 0, 6.04, 6.801857, 1.4974203, 8.401329)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1338655617]
-transform = Transform3D(5.96, 0, 0, 0, 5.96, 0, 0, 0, 5.96, -22.165575, 0.33113456, -4.555139)
+transform = Transform3D(5.96, 0, 0, 0, 5.96, 0, 0, 0, 5.96, -19.398743, -2.617339, -1.456675)
 material_override = ExtResource("6_m3clv")
-mesh = SubResource("PlaneMesh_86cne")
+mesh = SubResource("BoxMesh_8wvug")
 
 [node name="tripo_convert_81aed24f-005e-4418-9441-51c8b8550ce7" parent="." unique_id=709248549 instance=ExtResource("10_3ywx5")]
-transform = Transform3D(8.67, 0, 0, 0, 8.67, 0, 0, 0, 8.67, 3.7778363, 1.9454613, -24.174511)
+transform = Transform3D(7.4695435, 0, -4.4016843, 0, 8.67, 0, 4.4016843, 0, 7.4695435, -2.9192424, 1.9454613, -24.174511)
 
 [node name="Terrain3D" type="Terrain3D" parent="." unique_id=1990652873]
 data_directory = "res://terreno_dados"

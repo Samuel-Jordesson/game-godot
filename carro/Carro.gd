@@ -41,6 +41,11 @@ func _ready():
 		if wheel_rr: init_rr = wheel_rr.transform.basis
 
 func _physics_process(delta):
+	# Envia a posição do carro para a água para criar as ondas
+	var water_mat = load("res://water_material.tres")
+	if water_mat:
+		water_mat.set_shader_parameter("car_pos", global_position)
+		
 	if not is_driven:
 		# Aplica gravidade se ninguém estiver dirigindo
 		if not is_on_floor():
